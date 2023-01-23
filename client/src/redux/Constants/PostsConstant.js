@@ -1,0 +1,15 @@
+
+
+export const ADD_NEW_POST = 'ADD_NEW_POST'
+export const UPDATE_POST  = 'UPDATE_POST'
+export const DEELTE_POST  = 'DEELTE_POST'
+export const LOADING_EVENT_POST = 'LOADING_EVENT_POST'
+export const ERROR_NEW_POST = 'ERROR_NEW_POST'
+
+export const ALERT_DELETE = 'ALERT_DELETE'
+
+export const GET_ALL_POSTS = 'GET_ALL_POSTS'
+
+
+
+export const REMOVE_LOADING = 'REMOVE_LOADING'

@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*{
+  margin:0;
+  padding:0;
+  /* font-size: 19px; */
+}
+
+
+body{
+  background: #F0F0F0;
+  height: '100vh';
+  /* font-size: 9px; */
+}
+.dark{
+  background:#1e293bed;
+  /* font-size: 12px; */
+}
+
+
+.Spinner{
+  animation: Spinnerr infinite .7s linear;
+  }
+  @keyframes Spinnerr {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+  }
+
+  img{
+    width: 20%;
+  }
+
+
+  .hamburger{
+    position: relative;
+    height: 30px;
+    width: 40px;
+    cursor: pointer;
+ }
+ 
+ .hamburger-top,
+ .hamburger-middle,
+ .hamburger-bottom{
+   /* background: rgb(0, 0, 0); */
+   width: 34px;
+   height: 2.4px;
+   position: absolute;
+   top:23%;
+   
+   transition: all .5s ease;
+ }
+ 
+ 
+ .hamburger-middle{
+    transform: translateY(7px);
+    transition: all .5s ease;
+ }
+ .hamburger-bottom{
+    transform: translateY(14px);
+    transition: all .5s ease;
+ }
+ 
+ .open .hamburger-middle{
+   display: none;
+ }
+ .open .hamburger-top{
+   transform: rotate(45deg) translateY(6px) translate(6px);
+ }
+ .open .hamburger-bottom{
+   transform: rotate(-45deg) translateY(6px) translate(-6px);
+ }
+
+ .popup {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0);
+  transform-origin: 0 50;
+  transition: all .3s ease;
+}
+.popup.openWindow{
+  opacity: 1 !important;
+  pointer-events: initial !important;
+  transform: scale(1) !important;
+}
+
+.popup:after {
+  content: "";
+  display: block;
+  width: 0; 
+  height: 0; 
+  /* border: 12px solid red; */
+  border-top: 18px solid transparent;
+  border-bottom: 18px solid #3091a23e;
+  border-right: 18px solid transparent;
+  border-left: 18px solid transparent;
+  position: fixed;
+  top: -35px;
+  right: 90px;
+}
+.dark .profile:after {
+  border-bottom: 12px solid #1e293b;
+  
+}
+.profile:after {
+  content: "";
+  display: block;
+  width: 0; 
+  height: 0; 
+  /* border: 12px solid red; */
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid #F6F6F6;
+  border-right: 12px solid transparent;
+  border-left: 12px solid transparent;
+  position: absolute;
+  top: -22px;
+  right:7px
+}
+
+
+
+.parent-img-profile span{
+  background: rgba(0, 0, 0, 0.379);
+  opacity: 0;
+  pointer-events: none;
+  bottom: -70px;
+  transition: all .4s ease;
+}
+.parent-img-profile:hover span{
+  opacity: 1 !important;
+  pointer-events: initial;
+  bottom: 0;
+}

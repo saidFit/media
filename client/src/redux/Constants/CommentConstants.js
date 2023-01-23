@@ -1,0 +1,5 @@
+
+export const  ADD_NEW_COMMENT = 'ADD_NEW_COMMENT'
+export const  DELET_COMMENT   = 'DELET_COMMENT'
+export const GET_ALL_COMMENT  = 'GET_ALL_COMMENT'
+export const RELOAD_COMMENT   =  'RELOAD_COMMENT'
