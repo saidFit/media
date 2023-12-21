@@ -17,6 +17,18 @@ const MessageSchema = new Schema({
     text:{
         type:String,
         required:true
+    },
+    imageSender:{
+        type:String
+    },
+    IsFileSender:{
+        type:Boolean
+    },
+    IsFileReceiver:{
+        type:Boolean
+    },
+    imageReceiver:{
+        type:String
     }
 })
 

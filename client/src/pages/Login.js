@@ -5,10 +5,13 @@ import { Link } from 'react-router-dom'
 import { DeleteErrors, removeLocalStorageAction, UserLoginAction, UserRegisterAction } from '../redux/Actions/Actions'
 import {ImSpinner8} from 'react-icons/im'
 import {BiShow,BiHide} from 'react-icons/bi'
+import groovyWalkAnimation  from "../lotties/102360-searching-file";
+import groovyWalkAnimation1  from "../lotties/86055-wave-loading-animation.json";
+import Lottie from "lottie-react";
 export const Login = () => {
 
    const [email,setemail] = useState('')
-   const [password,setpassword] = useState('')
+   const [password,setpassword] = useState("")
    const [IsShowPss,setIsShowPss] = useState(false)
 
    const dispatch  = useDispatch()
@@ -17,17 +20,16 @@ export const Login = () => {
 
 const handleSubmit = (e) =>{
   e.preventDefault()
-
-  const formData = new FormData()
-        formData.append('email',email)
-        formData.append('password',password)
-    dispatch((UserLoginAction(formData,setemail,setpassword,user,IsValid)))   
+    const user = {email,password}
+    dispatch((UserLoginAction(user,setemail,setpassword,user,IsValid)))   
 }
 
     return (
 
         <section className='mt-4'>
-            {loading ? (<div className='container mx-auto text-5xl text-[#000000ca] h-[80vh] py-20 w-fit'>{<ImSpinner8 className='Spinner dark:text-white' size={40}/>}</div>):(
+            {loading ?  (<div>
+                <Lottie className='w-[120px] mx-auto h-[170px] mr-auto' animationData={groovyWalkAnimation} loop={true} />
+            </div>):(
                <div className='container mx-auto space-y-8 rounded-md p-3 shadow-My-box bg-gray-0 w-full max-w-[800px] dark:bg-slate-800 dark:border border-black'>
                 <h1 className='text-xl text-primary-500 font-bold w-fit border-b border-primary-300 rounded-br-[20px]'>Login</h1>
             <form className='space-y-6' onSubmit={handleSubmit}>
@@ -41,7 +43,7 @@ const handleSubmit = (e) =>{
                        <span onClick={()=> setIsShowPss(!IsShowPss)} className='absolute text-xl top-[50%] translate-x-[-50%] cursor-pointer translate-y-[-50%] right-[10px]'>{IsShowPss?<BiShow/>:<BiHide/>}</span>
                     </div>
                     {error_single && <p className='bg-danger p-2 text-center text-xl py-3 rounded-[6px] border border-[red]'>{error_single}</p>}
-                    <button className='bg-primary-500 w-full text-center text-white py-2 px-3 shadow-My-box text-xl rounded-md'>Register</button>
+                    <button className='bg-primary-500 w-full text-center text-white py-2 px-3 shadow-My-box text-xl rounded-md'>Log in</button>
             </form>
             <p className='border-b w-fit text-primary-600 border-primary-500' onClick={()=>dispatch((DeleteErrors()))}>don't have an account ?<Link to='/'>signup here</Link></p> 
             </div>  

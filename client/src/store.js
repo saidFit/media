@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { AddFavoriteReducer, AddFriendReducer, AddNewCommentReducer, AddPostReducer, GetSingleUserReducer, userRegisterReducer } from "./redux/Reducers/Reducers";
+import { AddFavoriteReducer, AddFriendReducer, AddNewCommentReducer, AddPostReducer, ChatMessagesReducers, GetSingleUserReducer, MakeConversationReducers, userRegisterReducer } from "./redux/Reducers/Reducers";
 
 
      //state
@@ -11,7 +11,8 @@ const reducer = combineReducers({
    AddNewComment : AddNewCommentReducer,
    AddFriend     : AddFriendReducer,
    AddFavorite   : AddFavoriteReducer,
-   GetSingleUser : GetSingleUserReducer
+   GetSingleUser : GetSingleUserReducer,
+   ChatMessages  : ChatMessagesReducers
    
 }); 
 
@@ -52,6 +53,13 @@ const initialState = {
   },
   GetSingleUser:{
     Single_user:{},
+  },
+
+  ChatMessages:{
+    conversation:{},
+    conversations:[],
+    conversationUsers:[],
+    messages:[],
   }
 
 };

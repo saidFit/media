@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CiCamera } from 'react-icons/ci'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -23,7 +23,7 @@ export const Register = () => {
 
 const handleSubmit = (e) =>{
   e.preventDefault()
-
+  console.log(image)
   const formData = new FormData()
         formData.append('firstName',firstName)
         formData.append('lastName',lastName)
@@ -32,9 +32,12 @@ const handleSubmit = (e) =>{
         formData.append('image',image)
         formData.append('email',email)
         formData.append('password',password)
-       
-    dispatch((UserRegisterAction(formData)))    
 
+        const user = {firstName,lastName,location,occupation,email,password}
+       
+    dispatch((UserRegisterAction(user,image,Navigate,error_arr,error_single)))    
+
+   
 
 }
 
@@ -44,6 +47,10 @@ const handleDich =() =>{
     Navigate('/Login')
 }
 
+
+// useEffect(()=>{
+// 
+// },[error_arr,error_single])
     return (
 
         <section className='mt-4'>
@@ -84,7 +91,7 @@ const handleDich =() =>{
                     </div>
                     <div className='relative flex items-center'>
                         <label className='w-[20%] text-[13px] md:text-xl'>password*</label>
-                        <input onChange={(e)=>setpassword(e.target.value)} value={password}className={error_arr.includes('password dark:bg-slate-800 dark:border dark:border-black')?'border w-[80%] py-3 px-4 outline-none border-red-600 rounded-md shadow-My-box dark:bg-slate-800 dark:border dark:border-black':'border w-[80%] py-3 px-4 outline-none border-gray-300 rounded-md shadow-My-box dark:bg-slate-800 dark:border dark:border-black'} type={IsShowPss?'text':'password'} name='password' placeholder='password' />
+                        <input onChange={(e)=>setpassword(e.target.value)} value={password}className={error_arr.includes('password')?'border w-[80%] py-3 px-4 outline-none border-red-600 rounded-md shadow-My-box dark:bg-slate-800 dark:border dark:border-black':'border w-[80%] py-3 px-4 outline-none border-gray-300 rounded-md shadow-My-box dark:bg-slate-800 dark:border dark:border-black'} type={IsShowPss?'text':'password'} name='password' placeholder='password' />
                        <span onClick={()=> setIsShowPss(!IsShowPss)} className='absolute text-xl top-[50%] translate-x-[-50%] cursor-pointer translate-y-[-50%] right-[10px]'>{IsShowPss?<BiShow/>:<BiHide/>}</span>
                     </div>
                     {error_single && <p className='bg-danger p-2 text-center text-xl py-3 rounded-[6px] border border-[red]'>{error_single}</p>}

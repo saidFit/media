@@ -20,6 +20,33 @@ body{
   /* font-size: 12px; */
 }
 
+/* .Friends::-webkit-scrollbar {
+  display: none;
+} */
+
+.Friends::-webkit-scrollbar {
+  width: 0;
+  cursor: pointer;
+
+}
+.Friends::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+  cursor: pointer;
+}
+
+.Friends::-webkit-scrollbar-thumb
+{
+  background: rgb(146, 146, 146);
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.Friends:-webkit-scrollbar-track {
+  background: #f4c5c5;
+  border-radius: 25px;
+  cursor: pointer;
+}
 
 .Spinner{
   animation: Spinnerr infinite .7s linear;
@@ -72,6 +99,11 @@ body{
  .open .hamburger-bottom{
    transform: rotate(-45deg) translateY(6px) translate(-6px);
  }
+
+ /* ::-webkit-scrollbar {
+  display: none;
+} */
+
 
  .popup {
   opacity: 0;

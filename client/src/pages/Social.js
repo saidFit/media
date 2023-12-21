@@ -20,7 +20,8 @@ import { PostsComponent } from '../components/PostsComponent'
 import { AddFriendAction, DeleteFriendAction, GetAllFriendAction } from '../redux/Actions/AddFriendActions'
 import { handleRandomImageAction } from '../redux/Actions/Actions'
 import { Theme } from '../components/Theme'
-
+import groovyWalkAnimation  from "../lotties/86055-wave-loading-animation.json";
+import Lottie from "lottie-react";
 
 
 export const Social = (
@@ -53,7 +54,7 @@ setDarkThem
     const Navigate = useNavigate()
     const {user,image_random,loading} = useSelector((state) => state.userRegister)
     const {New_Comment}      = useSelector((state)=> state.AddNewComment)
-    const {Posts,error_post} = useSelector((state) => state.addPost)
+    const {Posts,loading_Posts} = useSelector((state) => state.addPost)
     const {Friends} = useSelector((state) => state.AddFriend)
 
     
@@ -67,10 +68,10 @@ useEffect(()=>{
         {loading ? (<div className='containe mx-auto text-5xl text-[#000000ca] h-[80vh] py-20 w-fit'>{<ImSpinner8 className='Spinner dark:text-white'/>}</div>):(
 
            <section className='relative mx-auto px-5 grid grid-cols-1  gap-10 my-8 lg:grid-cols-4'>
-            <article className=' bg-gray-0 rounded-md shadow-My-box py-3 px-5 h-fit lg:col-start-1 lg:col-end-2 dark:bg-slate-800 dark:border border-black'>
+            <article className=' bg-gray-50 rounded-md shadow-My-box py-3 px-5 h-fit lg:col-start-1 lg:col-end-2 dark:bg-slate-800 dark:border border-black'>
                 <div className='flex justify-between items-center w-full py-3 border-b border-gray-100'>
                     <div className='flex items-center space-x-4'>
-                        <img onClick={()=> Navigate(`ProfileUser/${user._id}`)} className='w-[55px] h-[55px] object-cover rounded-[50%]' src={!user.IsFile ? user.image :`http://localhost:7070/${user.image}`} alt="img" />
+                        <img onClick={()=> Navigate(`ProfileUser/${user._id}`)} className='w-[55px] h-[55px] object-cover rounded-[50%]' src={user.image} alt="img" />
                         <div>
                           <p className='text-lg font-bold'>{user.firstName}-{user.lastName}</p>
                         <p className=' opacity-50'>0 fiends</p>  
@@ -140,7 +141,7 @@ useEffect(()=>{
             <article className='lg:col-start-2 lg:col-end-4'>
                 <section className='bg-gray-0 rounded-md shadow-My-box py-2 px-4 dark:bg-slate-800 dark:border border-black'>
                     <div className='flex items-center space-x-3 py-4 border-b border-gray-100'>
-                    <img className='w-[55px] h-[55px] object-cover rounded-[50%]' src={!user.IsFile ? user.image :`http://localhost:7070/${user.image}`} alt="img" />
+                    <img className='w-[55px] h-[55px] object-cover rounded-[50%]' src={user.image} alt="img" />
                         <input onChange={(e)=>settitle(e.target.value)} value={title} className='bg-gray-10 rounded-[30px] shadow-My-box border border-gray-200 outline-none py-3 px-4 w-[85%] dark:bg-slate-800 dark:border' type="text" placeholder="what's on your mind..." />
                        
                     </div>
@@ -174,14 +175,23 @@ useEffect(()=>{
                             <span><AiOutlineAudio className='text-blue-600' size={20}/></span>
                             <button>Audio</button>
                         </div>
-                        <button style={{background:`${colorButtons}`}} className='bg-primary-500 rounded-[30px] py-1.5 px-4 shadow-My-box dark:bg-primary-500' onClick={handlePost}>POST</button>
+                        {!loading_Posts ?
+                         ( <button style={{background:`${colorButtons}`}} className='bg-primary-500 rounded-[30px] py-1.5 px-4 shadow-My-box dark:bg-primary-500' onClick={handlePost}>POST</button>)
+                         :(<button disabled type="button" className="bg-primary-200 rounded-[30px] py-1.5 px-2 md:px-4 shadow-My-box dark:bg-primary-300">
+                         <svg aria-hidden="true" role="status" className="inline w-4 h-4 mr-3 text-gray-0 animate-spin dark:text-gray-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                         <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="#1C64F2"/>
+                         </svg>
+                         POSTING...
+                     </button>)}
+                       
                     </div> 
                 </section>
                 
                 {/* =============NEW POSTS======================= */}
                  
                  <div>
-                    {Posts.length !=0 &&(
+                    {Posts.length !=0 && !loading_Posts ?(
                         Posts.map((post,key) =>(
                         <PostsComponent
                          key={key}
@@ -203,6 +213,10 @@ useEffect(()=>{
                           
                             )
                         )
+                    ):(
+                        <div className="h-[80px] w-full">
+                        <Lottie className='w-[430px] mx-auto h-[100px] mr-auto' animationData={groovyWalkAnimation} loop={true} />
+                        </div>
                     )}
                    
                  </div>
@@ -236,7 +250,7 @@ useEffect(()=>{
                             return(
                                 <div key={key} className='flex w-full justify-between items-center'>
                                 <div className='flex w-[50%] space-x-3 items-center lg:flex-col xl:flex-row'>
-                                <img className='w-[55px] h-[55px] text-start block object-cover rounded-[50%]' src={!Friend.IsFile ? Friend.image_user :`http://localhost:7070/${Friend.image_user}`} alt="img" />
+                                <img className='w-[55px] h-[55px] text-start block object-cover rounded-[50%]' src={Friend.image_user} alt="img" />
                                     <div>
                                       
                                       <p className='text-sm font-[500]'>{Friend.name_user}</p>

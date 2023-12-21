@@ -4,13 +4,21 @@ import { CHANGE_DATA_USER, DELETE_ERRORS, GET_SINGLE_USER, IMAGE_RANDOM_PUP, LOA
 import { images_random } from '../../image-data-random/image-radom'
 import { GET_ALL_POSTS } from '../Constants/PostsConstant'
 import { GET_ALL_COMMENT, RELOAD_COMMENT } from '../Constants/CommentConstants'
+import { useNavigate } from 'react-router-dom'
+import { URL } from '../../App'
+import upload from '../../utils/upload'
 
 
-export const UserRegisterAction = (user) => async (dispatch) => {
+export const UserRegisterAction = (user,image,Navigate,error_arr,error_single) => async (dispatch) => {
     dispatch({ type: LOADING_EVENT })
+    
+    const url = await upload(image);
+        console.log(url)
     try {
-        const { data } = await axios.post('/user/register/', user)
+        console.log(user);
+        const { data } = await axios.post(`${URL}/user/register/`, {...user,image:url})
         dispatch({ type: USER_SUCCESS, payload: data })
+        Navigate('/Login')
     } catch (error) {
 
         if (error.response.data.error) {
@@ -44,7 +52,7 @@ export const UserLoginAction = (user_check, setemail, setpassword,user,IsValid) 
     
     try {
        
-        const { data } = await axios.post('/user/login',user_check)
+        const { data } = await axios.post(`${URL}/user/login`,user_check)
         setemail('')
         setpassword('')
         dispatch({ type: USER_SUCCESS_LOGIN, payload: data})
@@ -96,7 +104,7 @@ export const DeleteErrors = () => async(dispatch) =>{
 export const getSingleUserAction = (_id) => async(dispatch)=>{
     dispatch({ type: LOADING_EVENT })  
     try {
-        const {data} = await axios.get(`/user/getById/${_id}`)
+        const {data} = await axios.get(`${URL}/user/getById/${_id}`)
         dispatch({type:GET_SINGLE_USER,payload:data})
         dispatch({type:LOADING_HEDDIN})
     } catch (error) {
@@ -106,7 +114,7 @@ export const getSingleUserAction = (_id) => async(dispatch)=>{
 
 export const updateImageProfileAction = (_id,image) => async(dispatch) =>{
     try {
-        const {data} = await axios.put(`/user/putImageProfile/${_id}`,image)
+        const {data} = await axios.put(`${URL}/user/putImageProfile/${_id}`,image)
         dispatch({type:CHANGE_DATA_USER,payload:data.user})
         dispatch({type:GET_SINGLE_USER,payload:data.user})
         dispatch({type:GET_ALL_POSTS,payload:data.posts})
@@ -119,7 +127,7 @@ export const updateImageProfileAction = (_id,image) => async(dispatch) =>{
 export const updateImageCovertureAction =(_id,image) => async(dispatch) =>{
 
     try {
-       const {data} = await axios.put(`/user/updateImageCoverture/${_id}`,image)
+       const {data} = await axios.put(`${URL}/user/updateImageCoverture/${_id}`,image)
         dispatch({type:USER_SUCCESS_LOGIN,payload:data})
         dispatch({type:GET_SINGLE_USER,payload:data})
     } catch (error) {

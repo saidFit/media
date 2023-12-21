@@ -4,27 +4,27 @@ export const FontSize = [
     {
         top: '-5px',
         left: 0,
-        ScreenSize:'12.5px'
+        ScreenSize:'11.4px'
     },
     {
         top: '-5px',
         left: 25,
-        ScreenSize:'15px'
+        ScreenSize:'12.4px'
     },
     {
         top: '-5px',
         left: 50,
-        ScreenSize:'19px'
+        ScreenSize:'14.4px'
     },
     {
         top: '-5px',
         left: 75,
-        ScreenSize:'22px'
+        ScreenSize:'16.4px'
     },
     {
         top: '-5px',
         right: 0,
-        ScreenSize:'25px'
+        ScreenSize:'18.4px'
     },
 ]
 

@@ -5,14 +5,72 @@ const Posts = require("../models/AddPostModel")
 const AddFriend_arr = require('../models/AddFriend')
 const Comments = require('../models/Comment')
 
-const CreateToken = (_id) =>{
+// const CreateToken = (user) => {
+//     return JwT.sign(
+//       {
+//         _id: user._id,
+//         email: user.email,
+//       },
+//       process.env.SECRET,
+//       {
+//         expiresIn: '30d',
+//       }
+//     );
+//   };
+  const CreateToken = (_id) =>{
     return JwT.sign({_id},process.env.SECRET,{expiresIn: '3d'})
 }
+const processToken = async(req,res) =>{
+    const {email} = req.body
+    console.log(email)
+    try {
+        const userProcess = await Users.findOne({email}).then((user) =>{
+            return {
+                    _id: user._id,
+                    firstName: user.firstName,
+                    lastName:user.lastName,
+                    email: user.email,
+                    image: user.image,
+                    location: user.location,
+                    occupation: user.occupation,
+                    IsFile:user.IsFile
+                 
+            }
+        })
 
+       
+        const token = CreateToken(userProcess._id)
+        res.status(200).json({...userProcess,token})
+        
+
+    } catch (error) {
+        res.status(400).json({message:error.message})
+    }
+    // try {
+    //     const userProcess = await Users.findOne({email}).then((user) =>{
+    //          return {
+    //                 _id:user._id,
+    //                 firstName:user.firstName,
+    //                 lastName:user.lastName,
+    //                 email:user.email,
+    //                 IsAdmin:user.IsAdmin,
+    //                 IsCustomer:user.IsCustomer,
+    //                 IsSeller:user.IsSeller,
+    //                 image:user.image,
+    //                 IsFile:user.IsFile,
+    //             }
+            
+    //     })
+        
+    //     const token = CreateToken(userProcess)
+    //     res.status(200).json({...userProcess,token})
+    // } catch (error) {
+    //     res.status(400).json({error:error.message})
+    // }
+} 
 
 const registeruser = async(req,res) =>{
-     const {firstName,lastName,email,password,location,occupation} = req.body
-     console.log(req.body)
+     const {firstName,lastName,email,password,location,image,occupation} = req.body
      const arr_errors = []
      if(!firstName){
         arr_errors.push('firstName')
@@ -39,7 +97,7 @@ const registeruser = async(req,res) =>{
     try {
 
        
-        const now_user = await Users.register(firstName,lastName,email,password,req.file,location,occupation)
+        const now_user = await Users.register(firstName,lastName,email,password,image,location,occupation)
         const filter_user ={
            _id: now_user._id,
            firstName: now_user.firstName,
@@ -84,7 +142,6 @@ const login    = async(req,res) =>{
            image: user_exist.image,
            location: user_exist.location,
            occupation: user_exist.occupation,
-           IsFile:user_exist.IsFile,
            Image_Coverture:user_exist.Image_Coverture,
 
          }
@@ -191,5 +248,6 @@ module.exports  ={
     login,
     getUserById,
     updateImageUser,
-    updateImageCoverture
+    updateImageCoverture,
+    processToken
 }

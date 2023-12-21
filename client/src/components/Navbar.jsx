@@ -43,7 +43,7 @@ export const Navbar = ({darkThem,setDarkThem,colorButtons}) => {
            <span><IoMdArrowDropdown className='text-xl'/></span>
           </div>
           {IsShawProfile && (
-             <div className='bg-gray-10 absolute rounded-md w-full p-2 top-[50px] z-30 profile shadow-md flex flex-col dark:bg-slate-800 dark:border border-black'>
+             <div className='bg-gray-100 absolute rounded-md w-full p-2 top-[50px] z-30 profile shadow-md flex flex-col dark:bg-slate-800 dark:border border-black'>
             <button className='py-1 px-3 text-lg font-[400] block text-start w-full hover:bg-gray-100' onClick={() => dispatch((getSingleUserAction(user._id)))} ><Link to={`ProfileUser/${user._id}`}>Profile</Link></button>
             <button onClick={logout} className='py-1 px-3 text-lg font-[400] block text-start w-full hover:bg-gray-100'>Log out</button>
            </div>

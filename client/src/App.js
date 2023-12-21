@@ -13,10 +13,13 @@ import { Login } from './pages/Login'
 import { ProfileUser } from './pages/ProfileUser'
 import { Social } from './pages/Social'
 import { AddFavoriteAction, DeleteFavoriteAction, GetAllFavoritesAction } from './redux/Actions/ActionsFavorites'
-import { AddFriendAction, DeleteFriendAction } from './redux/Actions/AddFriendActions'
+import { AddFriendAction, DeleteFriendAction, GetAllFriendAction } from './redux/Actions/AddFriendActions'
 import { AddNewCommentAction, GetAllComment } from './redux/Actions/CommentActions'
 import { AddNewPostAction, getAllPostsAction } from './redux/Actions/PostAction'
 import { Chat } from './pages/chat/Chat'
+
+export const URL = process.env.REACT_APP_SERVER_URL;
+// export const URL = 'http://localhost:7070';
 
 export const App = () => {
   const [image,setimage] = useState('')
@@ -25,7 +28,7 @@ export const App = () => {
   const [comment,setcomment] = useState('')
   const [IdClick,setIdClick] = useState(null)
   const [IsclickCreateComment, setIsclickCreateComment] = useState(false)
-  const [SizeScreen,setSizeScreen] = useState('11px')
+  const [SizeScreen,setSizeScreen] = useState('11.4px')
   const [colorButtons,setcolorButtons] = useState('#00D5FA')
   const [backgroundColor,setbackgroundColor] = useState('#F0F0F0')
   const dispatch = useDispatch() 
@@ -37,7 +40,6 @@ export const App = () => {
 
 
   useEffect(()=>{
-    console.log(user)
    if(user){
     localStorage.setItem('Login',JSON.stringify({user,IsValid}))
    }
@@ -45,11 +47,10 @@ export const App = () => {
 
  useEffect(()=>{
   dispatch((getAllPostsAction()))
+  dispatch((GetAllFriendAction()))
+  dispatch((GetAllFavoritesAction()))
 },[])
 
-useEffect(()=>{
-  return () =>  dispatch((GetAllFavoritesAction()))
-},[])
 
 useEffect(()=>{
   dispatch((GetAllComment()))
@@ -58,16 +59,18 @@ useEffect(()=>{
 
 
  const handlePost = () =>{
+   if(!title && !image){
+    return false
+   }
 
-  const formData = new FormData()
-        formData.append('title',title)
-        formData.append('image',image)
-        formData.append('name_user',`${user.firstName}-${user.lastName}`)
-        formData.append('image_user',user.image)
-        formData.append('req_id_user',user._id)
-        formData.append('location_user',user.location)
-        formData.append('IsFile',user.IsFile)
-     dispatch((AddNewPostAction(formData,settitle,setIsClickImage,IsClickImage)))   
+       const Post = {
+        title,
+        name_user:`${user.firstName}-${user.lastName}`,
+        image_user:user.image,
+        req_id_user:user._id,
+        location_user:user.location,
+      }
+     dispatch((AddNewPostAction(Post,image,settitle,setIsClickImage,IsClickImage)))   
 }
 
 
@@ -78,12 +81,13 @@ const handleComment =(_id) =>{
 }
 
 
-const handleAddFriend = (req_id_user,image_user,name_user,IsFile,type_request) =>{
+const handleAddFriend = (req_id_user,image_user,name_user,type_request) =>{
+
   if(type_request == 'AddFriend'){
-   const user_Added = {_id_friend:req_id_user,image_user,name_user,IsFile}
+
+   const user_Added = {_id_friend:req_id_user,image_user,name_user}
    dispatch((AddFriendAction(user_Added)))
   }else{
-   console.log(type_request)
    dispatch((DeleteFriendAction(req_id_user)))
   }
 }
@@ -139,8 +143,6 @@ useEffect(()=>{
    return
   }
   return setDarkThem('light')
-  
-  console.log(backgroundColor)
 },[backgroundColor])
 
 useEffect(()=>{
@@ -150,7 +152,7 @@ useEffect(()=>{
 
   return (
 
-    <div className='App dark:text-white h-fit'>
+    <div  className='App dark:text-white h-fit'>
       <BrowserRouter>
       <Navbar darkThem={darkThem} setDarkThem={setDarkThem} colorButtons={colorButtons}/>
        <div className='Pages h-[100vh]'>

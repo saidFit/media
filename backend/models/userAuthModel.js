@@ -50,7 +50,7 @@ const userSchema = new Schema({
 },{timestamps:true})
 
 
-userSchema.statics.register = async function(firstName,lastName,email,password,file,location,occupation){
+userSchema.statics.register = async function(firstName,lastName,email,password,image,location,occupation){
       
      
       if(!validator.isEmail(email)){
@@ -66,14 +66,10 @@ userSchema.statics.register = async function(firstName,lastName,email,password,f
      }
      const salt = await bcrypt.genSalt(10)
      const hash = await bcrypt.hash(password,salt)
-     if(!file){
-        const now_user = await this.create({firstName ,lastName,email,password:hash,location,occupation})
-        return now_user
-     }
-     const now_user = await this.create({firstName,lastName,email,password:hash,image:file.path,location,occupation,IsFile:true})
+     const now_user = await this.create({firstName,lastName,email,password:hash,image,location,occupation,IsFile:true})
      return now_user
     //  const user_now = await this.create({username,email,password:hash,telephone,Address,image:path})
-}
+    }
 
 
 userSchema.statics.login = async function(email,password) {

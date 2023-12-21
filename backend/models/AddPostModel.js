@@ -15,10 +15,6 @@ const PostSchema = new Schema({
         default:
         "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
-    IsImagePath:{
-        type:Boolean,
-        default:false
-    },
    
     comment:{
         type:[Object],
@@ -35,9 +31,6 @@ const PostSchema = new Schema({
     location_user:{
         type:String,
         required:true
-    },
-    IsFile:{
-        type:Boolean
     },
     req_id_user:{
         type:String,

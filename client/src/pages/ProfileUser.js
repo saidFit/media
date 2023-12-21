@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { getSingleUserAction, updateImageCovertureAction, updateImageProfileAction } from '../redux/Actions/Actions'
 import { absoluteCenter, FlexBetweenItems } from '../useStyle/useStyle'
+import upload from '../utils/upload'
 export const ProfileUser = (
   {IsclickCreateComment
    ,setIsclickCreateComment
@@ -52,20 +53,16 @@ export const ProfileUser = (
      dispatch((getSingleUserAction(id)))
     },[])
 
-    useEffect(()=>{
-      console.log(file)
-    },[file])
-
     const handleChangeProfile =(image) =>{
       const formData = new FormData()
             formData.append('image',image)
-       dispatch((updateImageProfileAction(user._id,formData)))
+       dispatch((updateImageProfileAction(user._id,image)))
     }
 
     const handleChangeCoverture =(image) =>{
-      const formData = new FormData()
-            formData.append('image',image)
-          dispatch((updateImageCovertureAction(user._id,formData)))    
+     
+           
+          dispatch((updateImageCovertureAction(user._id,image)))    
 
     }
 
@@ -103,7 +100,7 @@ export const ProfileUser = (
            <div className='relative w-full min-h-[20vh]'>
            <label className='relative w-full'>
             {Single_user.Image_Coverture ? (
-              <img className='w-[990px] h-[250px] object-cover' src={`http://localhost:7070/${Single_user.Image_Coverture}`} alt="img" />
+              <img className='w-[990px] h-[250px] object-cover' src={Single_user.Image_Coverture} alt="img" />
             ):(
               <img className='w-[990px] h-[250px] object-cover' src="https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg" alt="img" />
             )}
@@ -120,22 +117,15 @@ export const ProfileUser = (
           <div className='absolute bottom-[-50px] left-[-2px] block overflow-hidden border-2 border-white p-[1px] rounded-[50%] parent-img-profile w-[130px] h-[130px]'>
             {Single_user._id == user._id ? (
                <label>
-              {Single_user.IsFile ? (
-                <img className='cursor-pointer w-[130px] h-[130px] object-cover rounded-[50%]' src={`http://localhost:7070/${Single_user.image}`} alt="" />
-              ):(
                 <img className='cursor-pointer w-[130px] h-[130px] object-cover rounded-[50%]' src={Single_user.image} alt="" />
-              )}
               
               <input id="inputTag" type="file" className='hidden' onChange={(e) => handleChangeProfile(e.target.files[0])} />
               <span className='absolute bottom-0 left-0 right-0 cursor-pointer h-[50px] object-cover'><CiCamera className='mx-auto block text-4xl mt-1 text-white' /></span>
           </label>
             ):(
               <label>
-              {Single_user.IsFile ? (
-                <img className='cursor-pointer w-[130px] h-[130px] object-cover rounded-[50%]' src={`http://localhost:7070/${Single_user.image}`} alt="" />
-              ):(
+              
                 <img className='cursor-pointer w-[130px] h-[130px] object-cover rounded-[50%]' src={Single_user.image} alt="" />
-              )}
           </label>
             )}
           </div>
@@ -185,7 +175,7 @@ export const ProfileUser = (
         <section className='bg-gray-0 mt-4 rounded-md shadow-My-box py-2 px-4 dark:bg-slate-800 dark:border border-black'>
           
         <div className='flex items-center space-x-3 py-4 border-b border-gray-100'>
-        <img className='w-[55px] h-[55px] object-cover rounded-[50%]' src={!Single_user.IsFile ? Single_user.image :`http://localhost:7070/${Single_user.image}`} alt="img" />
+        <img className='w-[55px] h-[55px] object-cover rounded-[50%]' src={Single_user.image} alt="img" />
             <input onChange={(e)=>settitle(e.target.value)} value={title} className='bg-gray-10 rounded-[30px] shadow-My-box border border-gray-200 outline-none py-3 px-4 w-[85%] dark:bg-slate-800 dark:border' type="text" placeholder="what's on your mind..." />
            
         </div>
@@ -235,11 +225,7 @@ export const ProfileUser = (
         <div className='space-y-5'>
           <div className='flex w-full justify-between items-center'>
             <div className='flex space-x-3 items-center'>
-              {Post.IsFile ? (
-                <img className='w-[55px] h-[55px] object-cover rounded-[50%]' src={`http://localhost:7070/${Post.image_user}`} alt="img" />
-              ) : (
                 <img className='w-[55px] h-[55px] object-cover rounded-[50%]' src={Post.image_user} alt="img" />
-              )}
               <div>
                 <h1 className='text-xl font-[500]'>{Post.name_user}</h1>
                 <div className='flex space-x-1 items-center'>
@@ -259,9 +245,7 @@ export const ProfileUser = (
           </div>
           <div>
             <h1 className='mb-4'>{Post.title}</h1>
-            {Post.IsImagePath && (
-              <img className='w-full rounded-md' src={`http://localhost:7070/${Post.image}`} alt="img" />
-            )}
+              <img className='w-full rounded-md' src={Post.image} alt="img" />
           </div>
 
           <div className='flex px-5 justify-between text-xl items-center w-full'>
@@ -303,12 +287,7 @@ export const ProfileUser = (
                           <div key={key} className='border-b border-gray-200 pb-1'>
                             <div className='w-full flex items-center justify-between'>
                               <div className='flex space-x-2 items-center'>
-                                {comment.IsFile ?(
-                                  <img className='w-[55px] h-[55px] object-cover rounded-[50%]'src={`http://localhost:7070/${comment.image_user}`} alt="img" />
-                                ):(
                                   <img className='w-[55px] h-[55px] object-cover rounded-[50%]' src={comment.image_user} alt="img" />
-                                )}
-                                
                                 <p className='font-[500]'>{comment.name_user}</p>
                               </div>
 
@@ -386,7 +365,7 @@ export const ProfileUser = (
                             return(
                                 <div key={key} className='flex w-full justify-between items-center'>
                                 <div className='flex w-[50%]  space-x-3 items-center lg:flex-col xl:flex-row'>
-                                <img className='w-[55px] h-[55px] text-start block object-cover rounded-[50%]' src={!Friend.IsFile ? Friend.image_user :`http://localhost:7070/${Friend.image_user}`} alt="img" />
+                                <img className='w-[55px] h-[55px] text-start block object-cover rounded-[50%]' src={Friend.image_user} alt="img" />
                                     <div>
                                       
                                       <p className='text-sm font-[500]'>{Friend.name_user}</p>

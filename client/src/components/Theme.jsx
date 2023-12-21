@@ -35,7 +35,7 @@ export const Theme = ({setSizeScreen,setcolorButtons,colorButtons,setbackgroundC
   return (
    
     <div>
-       <button onClick={() => setIsShowTheme(!IsShowTheme)} style={{...AbsoluteFunction(60,150,colorButtons)}} className='bg-gray-0 p-4 rounded-[50%] shadow-md dark:bg-primary-700'><IoIosColorPalette size={30}/></button>
+       <button onClick={() => setIsShowTheme(!IsShowTheme)} style={{background:colorButtons}} className='bg-gray-0 p-4 fixed bottom-16 left-16 rounded-[50%] shadow-md dark:bg-primary-700'><IoIosColorPalette size={30}/></button>
        {IsShowTheme && (
          <section className='fixed backdrop-blur-sm inset-0 bg-[#00000047]'>
           <button onClick={() => setIsShowTheme(!IsShowTheme)} style={{...AbsoluteFunction(80,'',colorButtons)}} className='absolute top-[40px] right-[70px] font-bold text-lg bg-gray-0 p-4 rounded-[50%] shadow-md dark:bg-primary-700 w-[30px] h-[30px] flex items-center justify-center'>&#10005;</button>

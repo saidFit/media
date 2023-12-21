@@ -1,4 +1,5 @@
 import { ADD_FRIEND, DELETE_FRIEND, GET_FRIENDS } from "../Constants/AddFriendConstants";
+import { GET_MESSAGES_COV, MAKE_CONVERSATION } from "../Constants/Chat";
 import { ADD_NEW_COMMENT, GET_ALL_COMMENT, RELOAD_COMMENT } from "../Constants/CommentConstants";
 import { ADD_FAVORITE, DELETE_FAVORITE, GET_ALL_FAVORITES } from "../Constants/FavoriteConstants";
 import { ADD_NEW_POST, GET_ALL_POSTS, LOADING_EVENT_POST,REMOVE_LOADING } from "../Constants/PostsConstant";
@@ -46,7 +47,7 @@ export const AddPostReducer = (state={},action) =>{
     const {payload} = action
     switch (action.type){
        case ADD_NEW_POST:
-           return {...state,Posts:[payload,...state.Posts]}
+           return {...state,Posts:[payload,...state.Posts],loading_Posts:false}
         case GET_ALL_POSTS:
             return {...state,Posts:payload,loading_Posts:false}
        case LOADING_EVENT_POST:
@@ -82,7 +83,6 @@ export const AddFriendReducer = (state={},action) =>{
        case GET_FRIENDS:
         return{...state,Friends:payload}
        case DELETE_FRIEND:
-        console.log(payload)
         return {...state,Friends:state.Friends.filter((Friend) => Friend._id !== payload._id)} 
        default:
         return state; 
@@ -120,4 +120,24 @@ switch(action.type){
     default:
         return state
 }
+}
+
+
+
+export const ChatMessagesReducers = (state=null,action) =>{
+    const {payload} = action;
+    switch (action.type) {
+        case MAKE_CONVERSATION:
+            return {
+                ...state,
+                conversation:payload.conversation,
+                conversations:payload.conversations,
+                messages:payload.messages,
+                conversationUsers:payload.conversationUsers
+            }
+        case GET_MESSAGES_COV:
+            return {...state,messages:payload}    
+        default:
+          return state;
+    }
 }

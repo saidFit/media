@@ -4,17 +4,34 @@ const Messages = require('../models/messages')
 
 
 const PostMessage = async(req,res) =>{
-     const {conversationId,senderId,receiverId,text} = req.body
+     const {
+        conversationId
+        ,senderId
+        ,receiverId
+        ,text
+        ,imageSender
+        ,IsFileSender
+        ,IsFileReceiver
+        ,imageReceiver
+    } = req.body
+     console.log(req.body)
     try {
         
         const message = await new Messages({
-            conversationId:conversationId,
-            senderId:senderId,
-            receiverId:receiverId,
-            text:text
+            conversationId,
+            senderId,
+            receiverId,
+            text,
+            imageSender,
+            IsFileSender,
+            IsFileReceiver,
+            imageReceiver,
+
         }).save()
-        
-        res.status(200).json(message)
+
+        const messages = await Messages.find({conversationId})
+        res.status(200).json(messages)
+
     } catch (error) {
         res.status(400).json({error:error.message})
     }
